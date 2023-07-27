@@ -12,6 +12,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @RequestMapping("/journal")
 @RequiredArgsConstructor
@@ -34,7 +37,7 @@ public class JournalController {
     }
 
     @PostMapping("/create")
-    public String journalCreate(Principal principal , @Valid JournalForm journalForm, BindingResult bindingResult){
+    public String journalCreate(Principal principal , @Valid JournalForm journalForm, BindingResult bindingResult) throws ParseException {
         if (bindingResult.hasErrors()) {
             return "journal_form";
         }
@@ -42,8 +45,13 @@ public class JournalController {
         if (journalForm.getEmployee()==null){
             journalForm.setEmployee(siteUser.getRealName());
         }
+        // 포맷터
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = formatter.parse(journalForm.getTime());//journalForm.time은 문자열이고 엔티티의 time은 Date형식임
+
+
         this.journalService.createNewJournal(journalForm.getCampus(), journalForm.getCategory(), journalForm.getEmployee(),
-                journalForm.getTime(), journalForm.getWorkInfo(), journalForm.getProcess(), journalForm.getNote(),siteUser);
+                date, journalForm.getWorkInfo(), journalForm.getProcess(), journalForm.getNote(),siteUser);
         //
         return "redirect:/journal/list";
     }
@@ -70,13 +78,16 @@ public class JournalController {
         return "redirect:/goods/list";
     }
 
+     */
     @GetMapping("/delete/{id}")
-    public String goodsDelete(@PathVariable("id") Integer id) {
-        Goods goods = this.goodsService.getGoods(id);
-        this.goodsService.delete(goods);
-        return "redirect:/goods/list";
+    public String journalDelete(Principal principal ,@PathVariable("id") Integer id) {
+        Journal journal = this.journalService.getJournal(id);
+
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        if(siteUser.getUsername()!="admin" && siteUser!=journal.getSiteUser()){return "redirect:/journal/list";}
+        this.journalService.delete(journal);
+        return "redirect:/journal/list";
 
     }
 
-     */
 }

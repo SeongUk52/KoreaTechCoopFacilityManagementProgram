@@ -23,7 +23,7 @@ public class Journal {
 
     private String employee;//직원이 퇴사했을때를 고려해서 이름을 따로 기록함
 
-    private String time;
+    private Date time;
 
     private String workInfo;//업무내용
 
