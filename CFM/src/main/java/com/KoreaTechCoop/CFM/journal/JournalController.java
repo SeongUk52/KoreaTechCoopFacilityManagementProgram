@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 
 @RequestMapping("/journal")
@@ -33,6 +34,7 @@ public class JournalController {
 
     @GetMapping("/create")
     public String journalCreate(JournalForm journalForm){
+        journalForm.setTime(Instant.now().toString().substring(0,10));  //오늘 날짜 기본입력
         return "journal_form";
     }
 
@@ -55,21 +57,22 @@ public class JournalController {
         //
         return "redirect:/journal/list";
     }
+
     /*
     @GetMapping("/modify/{id}")
-    public String goodsModify(GoodsForm goodsForm,@PathVariable("id") Integer id){
-        Goods goods = this.goodsService.getGoods(id);
-        goodsForm.setGoodsName(goods.getGoodsName());
-        goodsForm.setGoodsCategory(goods.getGoodsCategory());
-        goodsForm.setGoodsIce(goods.getGoodsIce());
-        goodsForm.setGoodsAmount(goods.getGoodsAmount());
-        goodsForm.setGoodsPrice(goods.getGoodsPrice());
+    public String journalModify(JournalForm journalForm,@PathVariable("id") Integer id){
+        Journal journal = this.journalService.getJournal(id);
+        journalForm.setCampus(journal.getCampus());
+        journalForm.setGoodsCategory(goods.getGoodsCategory());
+        journalForm.setGoodsIce(goods.getGoodsIce());
+        journalForm.setGoodsAmount(goods.getGoodsAmount());
+        journalForm.setGoodsPrice(goods.getGoodsPrice());
 
         return "goods_form";
     }
 
     @PostMapping("/modify/{id}")
-    public String goodsModify(@Valid GoodsForm goodsForm, BindingResult bindingResult,@PathVariable("id") Integer id){
+    public String journalModify(@Valid JournalForm journalForm, BindingResult bindingResult,@PathVariable("id") Integer id){
         if (bindingResult.hasErrors()) {
             return "goods_form";
         }
@@ -78,7 +81,9 @@ public class JournalController {
         return "redirect:/goods/list";
     }
 
+
      */
+
     @GetMapping("/delete/{id}")
     public String journalDelete(Principal principal ,@PathVariable("id") Integer id) {
         Journal journal = this.journalService.getJournal(id);

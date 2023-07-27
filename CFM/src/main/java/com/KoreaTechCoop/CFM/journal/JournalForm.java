@@ -12,10 +12,8 @@ import java.util.Date;
 @Setter
 public class JournalForm {
 
-    @NotEmpty(message = "캠퍼스는 필수항목입니다.")
     private String campus;
 
-    @NotEmpty(message = "구분은 필수항목입니다.")
     private String category;
 
     private String employee;
