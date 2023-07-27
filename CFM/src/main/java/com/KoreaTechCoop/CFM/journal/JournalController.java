@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
+import java.util.Objects;
 
 @RequestMapping("/journal")
 @RequiredArgsConstructor
@@ -58,38 +59,50 @@ public class JournalController {
         return "redirect:/journal/list";
     }
 
-    /*
     @GetMapping("/modify/{id}")
-    public String journalModify(JournalForm journalForm,@PathVariable("id") Integer id){
+    public String journalModify(Principal principal ,JournalForm journalForm,@PathVariable("id") Integer id){
         Journal journal = this.journalService.getJournal(id);
-        journalForm.setCampus(journal.getCampus());
-        journalForm.setGoodsCategory(goods.getGoodsCategory());
-        journalForm.setGoodsIce(goods.getGoodsIce());
-        journalForm.setGoodsAmount(goods.getGoodsAmount());
-        journalForm.setGoodsPrice(goods.getGoodsPrice());
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        if(!Objects.equals(siteUser.getUsername(), "admin") && siteUser!=journal.getSiteUser()){return "redirect:/journal/list";}
 
-        return "goods_form";
+        journalForm.setCampus(journal.getCampus());
+        journalForm.setCategory(journal.getCategory());
+        journalForm.setEmployee(journal.getEmployee());
+        journalForm.setTime(journal.getTime().toString().substring(0,10));
+        journalForm.setWorkInfo(journal.getWorkInfo());
+        journalForm.setProcess(journal.getProcess());
+        journalForm.setNote(journal.getNote());
+        return "journal_form";
     }
 
     @PostMapping("/modify/{id}")
-    public String journalModify(@Valid JournalForm journalForm, BindingResult bindingResult,@PathVariable("id") Integer id){
+    public String journalModify(Principal principal ,@Valid JournalForm journalForm, BindingResult bindingResult,@PathVariable("id") Integer id) throws ParseException {
         if (bindingResult.hasErrors()) {
-            return "goods_form";
+            return "journal_form";
         }
-        Goods goods = this.goodsService.getGoods(id);
-        this.goodsService.modify(goods,goodsForm.getGoodsName(),goodsForm.getGoodsCategory(),goodsForm.getGoodsIce(),goodsForm.getGoodsAmount(),goodsForm.getGoodsPrice());
-        return "redirect:/goods/list";
+
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        if (journalForm.getEmployee()==null){
+            journalForm.setEmployee(siteUser.getRealName());
+        }
+        // 포맷터
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = formatter.parse(journalForm.getTime());//journalForm.time은 문자열이고 엔티티의 time은 Date형식임
+
+        Journal journal = this.journalService.getJournal(id);
+        this.journalService.modify(journal,journalForm.getCampus(),journalForm.getCategory(), journalForm.getEmployee(),
+                date, journalForm.getWorkInfo(), journalForm.getProcess(), journalForm.getNote());
+        return "redirect:/journal/list";
     }
 
 
-     */
 
     @GetMapping("/delete/{id}")
     public String journalDelete(Principal principal ,@PathVariable("id") Integer id) {
         Journal journal = this.journalService.getJournal(id);
 
         SiteUser siteUser = this.userService.getUser(principal.getName());
-        if(siteUser.getUsername()!="admin" && siteUser!=journal.getSiteUser()){return "redirect:/journal/list";}
+        if(!Objects.equals(siteUser.getUsername(), "admin") && siteUser!=journal.getSiteUser()){return "redirect:/journal/list";}
         this.journalService.delete(journal);
         return "redirect:/journal/list";
 

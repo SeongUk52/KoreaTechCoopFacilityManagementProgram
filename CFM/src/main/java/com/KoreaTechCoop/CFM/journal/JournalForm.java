@@ -18,6 +18,7 @@ public class JournalForm {
 
     private String employee;
 
+    @NotEmpty(message = "일자는 필수항목입니다.")
     private String time;
 
     @NotNull(message = "업무내용은 필수항목입니다.")

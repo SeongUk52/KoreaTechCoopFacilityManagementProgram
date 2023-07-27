@@ -44,4 +44,15 @@ public class JournalService {
         journal.setSiteUser(author);
         this.journalRepository.save(journal);
     }
+    public void modify(Journal journal, String campus, String category, String employee, Date time, String workInfo, Boolean process, String note){
+        journal.setCampus(campus);
+        journal.setCategory(category);
+        journal.setEmployee(employee);
+        journal.setTime(time);
+        journal.setWorkInfo(workInfo);
+        journal.setProcess(process);
+        journal.setNote(note);
+        this.journalRepository.save(journal);
+    }
+
 }
