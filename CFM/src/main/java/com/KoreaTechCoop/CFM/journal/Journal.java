@@ -12,7 +12,6 @@ import java.util.Date;
 @Setter
 @Entity
 public class Journal {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,6 +23,8 @@ public class Journal {
     private String employee;//직원이 퇴사했을때를 고려해서 이름을 따로 기록함
 
     private Date time;
+
+    private Integer thisyear;
 
     private String workInfo;//업무내용
 

@@ -15,6 +15,7 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -26,9 +27,9 @@ public class JournalController {
     private final JournalService journalService;
     private final UserService userService;
 
-    @GetMapping("/list")
-    public String list(Model model, @RequestParam(value="page", defaultValue="0") int page){
-        Page<Journal> paging = this.journalService.getList(page);
+    @GetMapping("/list/{thisyear}")
+    public String list(Model model, @RequestParam(value="page", defaultValue="0") int page , @PathVariable("thisyear") Integer thisyear){
+        Page<Journal> paging = this.journalService.getListByYear(page,thisyear);
         model.addAttribute("paging", paging);
         return "journal_list";
     }
@@ -56,7 +57,7 @@ public class JournalController {
         this.journalService.createNewJournal(journalForm.getCampus(), journalForm.getCategory(), journalForm.getEmployee(),
                 date, journalForm.getWorkInfo(), journalForm.getProcess(), journalForm.getNote(),siteUser);
         //
-        return "redirect:/journal/list";
+        return "redirect:/journal/list/"+ LocalDateTime.now().getYear();
     }
 
     @GetMapping("/modify/{id}")
@@ -92,7 +93,7 @@ public class JournalController {
         Journal journal = this.journalService.getJournal(id);
         this.journalService.modify(journal,journalForm.getCampus(),journalForm.getCategory(), journalForm.getEmployee(),
                 date, journalForm.getWorkInfo(), journalForm.getProcess(), journalForm.getNote());
-        return "redirect:/journal/list";
+        return "redirect:/journal/list/"+ journal.getThisyear();
     }
 
 
@@ -104,7 +105,7 @@ public class JournalController {
         SiteUser siteUser = this.userService.getUser(principal.getName());
         if(!Objects.equals(siteUser.getUsername(), "admin") && siteUser!=journal.getSiteUser()){return "redirect:/journal/list";}
         this.journalService.delete(journal);
-        return "redirect:/journal/list";
+        return "redirect:/journal/list/"+ journal.getThisyear();
 
     }
 
