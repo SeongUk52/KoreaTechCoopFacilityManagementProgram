@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -22,7 +23,7 @@ public class Journal {
 
     private String employee;//직원이 퇴사했을때를 고려해서 이름을 따로 기록함
 
-    private LocalDateTime time;
+    private String time;
 
     private String workInfo;//업무내용
 
