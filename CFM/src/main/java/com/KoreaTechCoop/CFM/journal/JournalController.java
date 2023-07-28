@@ -2,6 +2,8 @@ package com.KoreaTechCoop.CFM.journal;
 
 import com.KoreaTechCoop.CFM.user.SiteUser;
 import com.KoreaTechCoop.CFM.user.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
@@ -11,12 +13,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @RequestMapping("/journal")
@@ -32,6 +36,12 @@ public class JournalController {
         Page<Journal> paging = this.journalService.getListByYear(page,thisyear);
         model.addAttribute("paging", paging);
         return "journal_list";
+    }
+    @GetMapping("/detail/{id}")
+    public String detail(Model model,@PathVariable("id")Integer id){
+        Journal journal = this.journalService.getJournal(id);
+        model.addAttribute("journal",journal);
+        return "journal_detail";
     }
 
     @GetMapping("/create")
@@ -109,4 +119,10 @@ public class JournalController {
 
     }
 
+
+    @GetMapping("/excel/{thisyear}")
+    public void excelDownload(HttpServletResponse response, HttpServletRequest req , @PathVariable("thisyear") Integer thisyear) throws IOException {
+        List<Journal> journalList = this.journalService.getListByYear(thisyear);
+        this.journalService.excelDownload(response,req,journalList);
+    }
 }

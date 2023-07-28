@@ -1,0 +1,33 @@
+<a th:href="@{/user/login}" class="btn btn-primary" sec:authorize="isAnonymous()">먼저 로그인을 해주세요</a>
+<html layout:decorate="~{layout}" sec:authorize="isAuthenticated()">
+<div layout:fragment="content" class="container my-3">
+    <style>
+      div.row {
+        width: 100%;
+        display: flex;
+      }
+      div.left {
+        width: 50%;
+        float: left;
+        box-sizing: border-box;
+      }
+      div.right {
+        width: 50%;
+        float: right;
+        box-sizing: border-box;
+      }
+    </style>
+    <div class="row">
+        <h3>업무일지 상세</h3>
+        <h3 th:text="${journal.campus}"></h3>
+        <h3 th:text="${journal.category}"></h3>
+        <h3 th:text="${journal.employee}"></h3>
+        <h3 th:text="${journal.time}"></h3>
+        <h3 th:text="${journal.workInfo}"></h3>
+        <h3 th:text="${journal.process}"></h3>
+        <h3 th:text="${journal.note}"></h3>
+
+    </div>
+
+</div>
+</html>

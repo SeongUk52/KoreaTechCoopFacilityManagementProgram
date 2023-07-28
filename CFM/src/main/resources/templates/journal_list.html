@@ -2,27 +2,25 @@
 <div layout:fragment="content" class="container my-3">
     <a th:href="@{/user/login}" class="btn btn-primary" sec:authorize="isAnonymous()">먼저 로그인을 해주세요</a>
     <a th:href="@{/journal/create}" class="btn btn-primary" sec:authorize="isAuthenticated()">업무일지 등록하기</a>
-    <table class="table" sec:authorize="isAuthenticated()">
-        <thead class="table-dark">
+    <a th:href="@{/journal/excel/2023}" class="btn btn-success" sec:authorize="isAuthenticated()">엑셀 파일 출력</a>
+    <table class="table table-bordered border-dark table-sm" sec:authorize="isAuthenticated()">
+        <thead class="table-secondary">
         <tr>
             <th>구분</th>
             <th>담당자</th>
             <th>일자</th>
-            <th>업무내용</th>
-            <th>처리결과</th>
-            <th>비고</th>
+            <th>처리</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="journal, loop : ${paging}">
             <td>
-                <a th:text="${journal.campus}"></a>
-                <a th:text="${journal.category}"></a>
+                <a th:href="@{|/journal/detail/${journal.id}|}" th:text="${journal.campus}"></a>
+                <a th:href="@{|/journal/detail/${journal.id}|}" th:text="${journal.category}"></a>
             </td>
             <td th:text="${journal.employee}"></td>
             <td th:text="${#dates.format(journal.time, 'MM.dd')}"></td>
-            <td th:text="${journal.workInfo}"></td>
             <td><!-- 타임리프 기능) 불리안값에따라 아이콘 출력-->
                 <span th:if="${journal.process}">
             <i class="bi bi-check-circle"></i>
@@ -31,8 +29,6 @@
             <i class="bi bi-fast-forward-circle"></i>
                 </span>
             </td>
-            <td th:text="${journal.note}"></td>
-
             <td>
                 <a th:href="@{|/journal/modify/${journal.id}|}" class="btn btn-sm btn-outline-secondary"
                    th:text="수정"></a>
