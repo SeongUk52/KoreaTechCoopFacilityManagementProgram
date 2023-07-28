@@ -2,7 +2,7 @@
 <div layout:fragment="content" class="container my-3">
     <a th:href="@{/user/login}" class="btn btn-primary" sec:authorize="isAnonymous()">먼저 로그인을 해주세요</a>
     <a th:href="@{/journal/create}" class="btn btn-primary" sec:authorize="isAuthenticated()">업무일지 등록하기</a>
-    <a th:href="@{/journal/excel/2023}" class="btn btn-success" sec:authorize="isAuthenticated()">엑셀 파일 출력</a>
+    <a th:href="@{|/journal/excel/${thisyear}|}" class="btn btn-success" sec:authorize="isAuthenticated()">엑셀 파일 출력</a>
     <table class="table table-bordered border-dark table-sm" sec:authorize="isAuthenticated()">
         <thead class="table-secondary">
         <tr>

@@ -35,6 +35,7 @@ public class JournalController {
     public String list(Model model, @RequestParam(value="page", defaultValue="0") int page , @PathVariable("thisyear") Integer thisyear){
         Page<Journal> paging = this.journalService.getListByYear(page,thisyear);
         model.addAttribute("paging", paging);
+        model.addAttribute("thisyear", thisyear);
         return "journal_list";
     }
     @GetMapping("/detail/{id}")

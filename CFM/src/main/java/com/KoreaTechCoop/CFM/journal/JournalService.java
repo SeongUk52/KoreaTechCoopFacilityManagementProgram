@@ -190,7 +190,7 @@ public class JournalService {
         }
 
         // 컨텐츠 타입과 파일명 지정
-        String fileNm = LocalDateTime.now().getYear()+"년 월 생협 시설지원팀 업무일지.xlsx";
+        String fileNm = firstJournal.getThisyear()+"년 생협 시설지원팀 업무일지.xlsx";
         String browser = getBrowser(req);
         response.setContentType("ms-vnd/excel; charset=UTF-8");
 //        response.setHeader("Content-Disposition", "attachment;filename=example.xls");
