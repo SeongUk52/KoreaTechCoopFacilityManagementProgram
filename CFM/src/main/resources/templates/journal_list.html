@@ -1,6 +1,7 @@
 <html layout:decorate="~{layout}" >
 <div layout:fragment="content" class="container my-3">
     <a th:href="@{/user/login}" class="btn btn-primary" sec:authorize="isAnonymous()">먼저 로그인을 해주세요</a>
+    <h2 sec:authorize="isAuthenticated()">[[${thisyear}]]년 생협 시설지원팀 업무일지</h2>
     <a th:href="@{/journal/create}" class="btn btn-primary" sec:authorize="isAuthenticated()">업무일지 등록하기</a>
     <a th:href="@{|/journal/excel/${thisyear}|}" class="btn btn-success" sec:authorize="isAuthenticated()">엑셀 파일 출력</a>
     <table class="table table-bordered border-dark table-sm" sec:authorize="isAuthenticated()">
@@ -23,17 +24,17 @@
             <td th:text="${#dates.format(journal.time, 'MM.dd')}"></td>
             <td><!-- 타임리프 기능) 불리안값에따라 아이콘 출력-->
                 <span th:if="${journal.process}">
-            <i class="bi bi-check-circle"></i>
+                    <i class="bi bi-check-circle"></i>
                 </span>
                 <span th:if="${!journal.process}">
-            <i class="bi bi-fast-forward-circle"></i>
+                `   <i class="bi bi-fast-forward-circle"></i>
                 </span>
             </td>
             <td>
                 <a th:href="@{|/journal/modify/${journal.id}|}" class="btn btn-sm btn-outline-secondary"
                    th:text="수정"></a>
                 <a href="javascript:void(0);" th:data-uri="@{|/journal/delete/${journal.id}|}"
-                   class="delete btn btn-sm btn-outline-secondary"
+                   class="delete btn btn-sm btn-danger"
                    th:text="삭제"></a>
             </td>
         </tr>
@@ -62,6 +63,12 @@
         </ul>
     </div>
     <!-- 페이징처리 끝 -->
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a th:href="@{|/journal/list/${thisyear-1}|}" class="btn btn-dark btn-sm" sec:authorize="isAuthenticated()">[[${thisyear-1}]]년 일지보기</a>
+        <div th:if="${thisyear}<${#dates.format(#dates.createNow(), 'yyyy')}">  <!-- 타임리프 문법 현재날짜 가져오기 -->
+            <a th:href="@{|/journal/list/${thisyear+1}|}" class="btn btn-dark btn-sm" sec:authorize="isAuthenticated()">[[${thisyear+1}]]년 일지보기</a>
+        </div>
+    </div>
 </div>
 <script layout:fragment="script" type='text/javascript'>
 const delete_elements = document.getElementsByClassName("delete");

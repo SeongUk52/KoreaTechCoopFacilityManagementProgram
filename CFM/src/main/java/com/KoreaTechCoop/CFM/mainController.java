@@ -14,5 +14,6 @@ public class mainController {
     public String indexPage() {
         int nowYear = LocalDateTime.now().getYear();
         return "redirect:/journal/list/"+nowYear;
+
     }
 }
