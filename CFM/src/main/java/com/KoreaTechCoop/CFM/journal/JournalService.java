@@ -33,6 +33,10 @@ public class JournalService {
         Pageable pageable = PageRequest.of(page, 20);
         return this.journalRepository.findByThisyear(pageable,thisyear);
     }
+    public Page<Journal> getListByUser(int page,String id,Integer thisyear) {
+        Pageable pageable = PageRequest.of(page, 20);
+        return this.journalRepository.findBySiteUserUsernameAndThisyear(pageable,id,thisyear);
+    }
 
     public List<Journal> getListByYear(Integer thisyear) {
         return this.journalRepository.findByThisyear(thisyear);

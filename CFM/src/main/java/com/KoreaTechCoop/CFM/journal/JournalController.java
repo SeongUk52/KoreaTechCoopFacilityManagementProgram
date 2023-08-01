@@ -38,6 +38,13 @@ public class JournalController {
         model.addAttribute("thisyear", thisyear);
         return "journal_list";
     }
+    @GetMapping("/mylist/{thisyear}")
+    public String mylist(Model model, @RequestParam(value="page", defaultValue="0") int page, Principal principal, @PathVariable("thisyear") Integer thisyear){
+        Page<Journal> paging = this.journalService.getListByUser(page,principal.getName(),thisyear);
+        model.addAttribute("paging", paging);
+        model.addAttribute("thisyear", thisyear);
+        return "journal_list";
+    }
     @GetMapping("/detail/{id}")
     public String detail(Model model,@PathVariable("id")Integer id){
         Journal journal = this.journalService.getJournal(id);

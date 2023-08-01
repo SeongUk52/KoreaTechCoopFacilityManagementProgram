@@ -10,4 +10,5 @@ import java.util.List;
 public interface JournalRepository extends JpaRepository<Journal, Integer> {
     List<Journal> findByThisyear(Integer thisyear);
     Page<Journal> findByThisyear(Pageable pageable, Integer thisyear);
+    Page<Journal> findBySiteUserUsernameAndThisyear(Pageable pageable,String siteUserId,Integer thisyear);
 }
