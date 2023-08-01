@@ -1,5 +1,4 @@
-<a th:href="@{/user/login}" class="btn btn-primary" sec:authorize="isAnonymous()">먼저 로그인을 해주세요</a>
-<html layout:decorate="~{layout}" sec:authorize="isAuthenticated()">
+<html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
     <style>
       div.row {
@@ -17,7 +16,8 @@
         box-sizing: border-box;
       }
     </style>
-    <div class="row">
+    <a th:href="@{/user/login}" class="btn btn-primary" sec:authorize="isAnonymous()">먼저 로그인을 해주세요</a>
+    <div class="row"  sec:authorize="isAuthenticated()">
         <h3>업무일지 상세</h3>
         <h3 th:text="${journal.campus}"></h3>
         <h3 th:text="${journal.category}"></h3>

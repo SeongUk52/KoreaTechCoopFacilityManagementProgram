@@ -24,10 +24,10 @@
             <td th:text="${#dates.format(journal.time, 'MM.dd')}"></td>
             <td><!-- 타임리프 기능) 불리안값에따라 아이콘 출력-->
                 <span th:if="${journal.process}">
-                    <i class="bi bi-check-circle"></i>
+                    <a class="bi bi-check-circle" th:href="@{|/journal/change/${journal.id}|}"></a>
                 </span>
                 <span th:if="${!journal.process}">
-                `   <i class="bi bi-fast-forward-circle"></i>
+                `   <a class="bi bi-fast-forward-circle" th:href="@{|/journal/change/${journal.id}|}"></a>
                 </span>
             </td>
             <td>

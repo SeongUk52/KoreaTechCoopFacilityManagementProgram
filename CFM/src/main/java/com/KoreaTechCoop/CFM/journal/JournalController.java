@@ -107,6 +107,16 @@ public class JournalController {
         return "redirect:/journal/list/"+ journal.getThisyear();
     }
 
+    @GetMapping("/change/{id}")
+    public String processChange(Principal principal,@PathVariable("id") Integer id) {
+        Journal journal = this.journalService.getJournal(id);
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        if(!Objects.equals(siteUser.getUsername(), "admin") && siteUser!=journal.getSiteUser()){return "redirect:/journal/list";}
+        this.journalService.change(journal);
+
+        return "redirect:/journal/list/"+ journal.getThisyear();
+    }
+
 
 
     @GetMapping("/delete/{id}")

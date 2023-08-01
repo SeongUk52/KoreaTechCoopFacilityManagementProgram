@@ -49,6 +49,10 @@ public class JournalService {
     public void delete(Journal journal) {
         this.journalRepository.delete(journal);
     }
+    public void change(Journal journal) {
+        journal.setProcess(!journal.getProcess());
+        this.journalRepository.save(journal);
+    }
     public void createNewJournal(String campus, String category, String employee, Date time, String workInfo, Boolean process, String note, SiteUser author) {
         Journal journal = new Journal();
         Calendar calendar = Calendar.getInstance();
