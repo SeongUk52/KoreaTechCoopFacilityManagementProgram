@@ -2,6 +2,9 @@ package com.KoreaTechCoop.CFM.user;
 
 import com.KoreaTechCoop.CFM.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
@@ -12,6 +15,10 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    public Page<SiteUser> getList(int page){
+        Pageable pageable = PageRequest.of(page, 20);
+        return this.userRepository.findAll(pageable);
+    }
     public SiteUser create(String username, String realName,String password) {
         SiteUser user = new SiteUser();
         user.setUsername(username);

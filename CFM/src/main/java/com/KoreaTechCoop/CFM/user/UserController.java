@@ -4,12 +4,12 @@ import com.KoreaTechCoop.CFM.journal.Journal;
 import com.KoreaTechCoop.CFM.journal.JournalForm;
 import jakarta.validation.Valid;
 
+import org.apache.catalina.User;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import lombok.RequiredArgsConstructor;
@@ -27,6 +27,14 @@ public class UserController {
 
     private final UserService userService;
 
+
+
+    @GetMapping("/list")
+    public String list(Model model, @RequestParam(value="page", defaultValue="0") int page){
+        Page<SiteUser> paging = this.userService.getList(page);
+        model.addAttribute("paging", paging);
+        return "user_list";
+    }
     @GetMapping("/signup")
     public String signup(UserCreateForm userCreateForm) {
         return "signup_form";

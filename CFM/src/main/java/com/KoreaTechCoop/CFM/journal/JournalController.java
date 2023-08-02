@@ -82,7 +82,7 @@ public class JournalController {
     public String journalModify(Principal principal ,JournalForm journalForm,@PathVariable("id") Integer id){
         Journal journal = this.journalService.getJournal(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
-        if(!Objects.equals(siteUser.getUsername(), "admin") && siteUser!=journal.getSiteUser()){return "redirect:/journal/list";}
+        if(!Objects.equals(siteUser.getUsername(), "admin") && siteUser!=journal.getSiteUser()){return "redirect:/journal/list/"+ journal.getThisyear();}
 
         journalForm.setCampus(journal.getCampus());
         journalForm.setCategory(journal.getCategory());
@@ -118,7 +118,7 @@ public class JournalController {
     public String processChange(Principal principal,@PathVariable("id") Integer id) {
         Journal journal = this.journalService.getJournal(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
-        if(!Objects.equals(siteUser.getUsername(), "admin") && siteUser!=journal.getSiteUser()){return "redirect:/journal/list";}
+        if(!Objects.equals(siteUser.getUsername(), "admin") && siteUser!=journal.getSiteUser()){return "redirect:/journal/list/"+ journal.getThisyear();}
         this.journalService.change(journal);
 
         return "redirect:/journal/list/"+ journal.getThisyear();
@@ -131,7 +131,7 @@ public class JournalController {
         Journal journal = this.journalService.getJournal(id);
 
         SiteUser siteUser = this.userService.getUser(principal.getName());
-        if(!Objects.equals(siteUser.getUsername(), "admin") && siteUser!=journal.getSiteUser()){return "redirect:/journal/list";}
+        if(!Objects.equals(siteUser.getUsername(), "admin") && siteUser!=journal.getSiteUser()){return "redirect:/journal/list/"+ journal.getThisyear();}
         this.journalService.delete(journal);
         return "redirect:/journal/list/"+ journal.getThisyear();
 

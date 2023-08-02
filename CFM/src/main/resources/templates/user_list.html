@@ -1,0 +1,60 @@
+<html layout:decorate="~{layout}" >
+<div layout:fragment="content" class="container my-3">
+    <a th:href="@{/user/login}" class="btn btn-primary" sec:authorize="isAnonymous()">먼저 로그인을 해주세요</a>
+    <h2 sec:authorize="hasRole(T(com.KoreaTechCoop.CFM.user.UserRole).ADMIN)">시설지원팀 업무일지 사용자 목록</h2>
+    <table class="table table-bordered border-dark table-sm" sec:authorize="hasRole(T(com.KoreaTechCoop.CFM.user.UserRole).ADMIN)">
+        <thead class="table-secondary">
+        <tr>
+            <th>사용자 ID</th>
+            <th>성함</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="siteUser, loop : ${paging}">
+            <td th:text="${siteUser.username}"></td>
+            <td th:text="${siteUser.realName}"></td>
+                <!--
+
+                <a th:href="@{|/journal/modify/${journal.id}|}" class="btn btn-sm btn-outline-secondary"
+                   th:text="수정"></a>
+                <a href="javascript:void(0);" th:data-uri="@{|/journal/delete/${journal.id}|}"
+                   class="delete btn btn-sm btn-danger"
+                   th:text="삭제"></a>-->
+        </tr>
+        </tbody>
+    </table>
+    <!-- 페이징처리 시작 -->
+    <div th:if="${!paging.isEmpty()}" sec:authorize="isAuthenticated()">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{|?page=${paging.number-1}|}">
+                    <span>이전</span>
+                </a>
+            </li>
+            <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+                th:if="${page >= paging.number-5 and page <= paging.number+5}"
+                th:classappend="${page == paging.number} ? 'active'"
+                class="page-item">
+                <a th:text="${page}" class="page-link" th:href="@{|?page=${page}|}"></a>
+            </li>
+            <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+                <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
+                    <span>다음</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- 페이징처리 끝 -->
+</div>
+<script layout:fragment="script" type='text/javascript'>
+    const delete_elements = document.getElementsByClassName("delete");
+    Array.from(delete_elements).forEach(function(element) {
+        element.addEventListener('click', function() {
+            if(confirm("정말로 삭제하시겠습니까?")) {
+                location.href = this.dataset.uri;
+            };
+        });
+    });
+</script>
+</html>
