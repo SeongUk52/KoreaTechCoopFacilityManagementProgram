@@ -3,10 +3,11 @@
     <a th:href="@{/user/login}" class="btn btn-primary" sec:authorize="isAnonymous()">먼저 로그인을 해주세요</a>
     <div sec:authorize="isAuthenticated()">
         <h1>업무일지 상세</h1>
-        <h3 class="border-bottom py-2"> 구분: [[${journal.campus}+${journal.category}]] 담당자: [[${journal.employee}]] 작성일자: [[${#dates.format(journal.time, 'yyyy.MM.dd')}]]
-            <span th:if="${journal.process}"> 처리여부: 처리완료</span>
-            <span th:if="${!journal.process}"> 처리여부: 처리중</span>
-        </h3>
+        <h5 class="border-bottom py-2"> 구분: [[${journal.campus}+${journal.category}]] 담당자: [[${journal.employee}]] <br>
+            작성일자: [[${#dates.format(journal.time, 'yyyy.MM.dd')}]]
+            <span th:if="${journal.process}"> 처리여부: 처리 완료</span>
+            <span th:if="${!journal.process}"> 처리여부: 처리 중</span>
+        </h5>
         <h2 class="border-bottom py-2"> 업무내용 </h2>
         <div class="card my-3">
             <div class="card-body">
