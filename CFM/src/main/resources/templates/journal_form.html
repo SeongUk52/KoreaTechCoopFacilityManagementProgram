@@ -8,20 +8,20 @@
     </div>
     <div class="mb-3">
       <div>
-        <label for="campus">1 캠퍼스</label>
-        <input type="radio" th:field="*{campus}" value="1캠퍼스"/>
-        <label for="campus">2 캠퍼스</label>
-        <input type="radio" th:field="*{campus}" value="2캠퍼스"/>
+        <input type="radio" class="btn-check" id="campus1" th:field="*{campus}" value="1캠퍼스"/>
+        <label class="btn btn-primary" for="campus1">1 캠퍼스</label>
+        <input type="radio" class="btn-check" id="campus2" th:field="*{campus}" value="2캠퍼스"/>
+        <label class="btn btn-primary" for="campus2">2 캠퍼스</label>
       </div>
     </div>
     <div class="mb-3">
       <div>
-        <label for="category">전기</label>
-        <input type="radio" th:field="*{category}" value="전기"/>
-        <label for="category">영선</label>
-        <input type="radio" th:field="*{category}" value="영선"/>
-        <label for="category">기계</label>
-        <input type="radio" th:field="*{category}" value="기계"/>
+        <input type="radio" class="btn-check" id="category1" th:field="*{category}" value="전기"/>
+        <label class="btn btn-primary" for="category1">전기</label>
+        <input type="radio" class="btn-check" id="category2" th:field="*{category}" value="영선"/>
+        <label class="btn btn-primary" for="category2">영선</label>
+        <input type="radio" class="btn-check" id="category3" th:field="*{category}" value="기계"/>
+        <label class="btn btn-primary" for="category3">기계</label>
       </div>
     </div>
     <div class="mb-3" sec:authorize="hasRole(T(com.KoreaTechCoop.CFM.user.UserRole).ADMIN)">
@@ -38,10 +38,10 @@
     </div>
     <div class="mb-3">
       <div>
-        <label for="process">완료</label>
-        <input type="radio" th:field="*{process}" value="true"/>
-        <label for="process">처리중</label>
-        <input type="radio" th:field="*{process}" value="false" checked/>
+        <input type="radio" class="btn-check" id="process1" th:field="*{process}" value="true"/>
+        <label class="btn btn-primary" for="process1">완료</label>
+        <input type="radio" class="btn-check" id="process2" th:field="*{process}" value="false" checked/>
+        <label class="btn btn-primary" for="process2">처리중</label>
       </div>
     </div>
     <div class="mb-3">
